@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClinicManagementSystem.EntityFrameworkCore.Students;
+using ClinicManagementSystem.Students;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -24,6 +26,7 @@ public class ClinicManagementSystemDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<Student> Students { get; set; }
 
     #region Entities from the modules
 
@@ -75,12 +78,6 @@ public class ClinicManagementSystemDbContext :
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
-
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(ClinicManagementSystemConsts.DbTablePrefix + "YourEntities", ClinicManagementSystemConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.ApplyConfiguration(new StudentEfCoreConfiguration());
     }
 }
